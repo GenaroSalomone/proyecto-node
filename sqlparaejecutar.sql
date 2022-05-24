@@ -172,6 +172,7 @@ INSERT INTO proyecto.fecha (d_m_a) VALUES
 ('15/03/2022'), -- fecha random
 ('01/12/2020'), -- fecha random
 ('17/09/2021'), -- fecha random
+( now() );
 
 INSERT INTO proyecto.atiende (dni, nro_habitacion) VALUES -- dni_mucama
 (28456123, 1), -- lucrecia atiende habitacion 1
@@ -226,12 +227,7 @@ UPDATE proyecto.ocupa SET
 dni = 16530675
 where (nro_habitacion = 7);
 
-select * from proyecto.ocupa;
-
-select nombre, apellido, dni, d_m_a from proyecto.persona inner join proyecto.ocupa using (dni)
-where (nro_habitacion = 1);
-
-
+--select * from proyecto.habitaciones;
 
 
 
