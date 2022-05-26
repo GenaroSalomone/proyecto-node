@@ -172,8 +172,7 @@ INSERT INTO proyecto.fecha (d_m_a) VALUES
 ('03/04/2022'), -- fecha primer hospedaje de emilia (cliente)
 ('15/03/2022'), -- fecha random
 ('01/12/2020'), -- fecha random
-('17/09/2021'), --fecha random
-( now() ); --fecha de hoy
+('17/09/2021'); -- fecha random
 
 INSERT INTO proyecto.atiende (dni, nro_habitacion) VALUES -- dni_mucama
 (28456123, 1), -- lucrecia atiende habitacion 1
@@ -192,11 +191,6 @@ INSERT INTO proyecto.ocupa (nro_habitacion, d_m_a, dni, monto, dias_permanecio) 
 (2, '10/02/2021', 16530675, 2.000, 1), -- habitacion 4 primer fecha hospedaje de osvaldo pago $2.000 y estuve 1 dia
 (7, '01/12/2020', 17380992, 6.700, 2), -- habitacion 7 segunda fecha de hospedaje de javier pago $6.700 y estuvo 2 dias
 (3, '15/03/2022', 16530675, 4.000, 2); -- habitacion 3 segunda fecha de hospedaje de osvaldo pago $4.000 y estuvo 2 dias
-
---Agrego las habitaciones desocupadas por primera vez en el sistema para EJ 5B.
-INSERT INTO proyecto.ocupa (nro_habitacion, d_m_a) VALUES
-(5, '01/01/0001'),
-(6, '01/01/0001');
 
 -- se crea la funcion que se ejecuta dentro del trigger
 
