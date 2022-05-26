@@ -166,13 +166,19 @@ INSERT INTO proyecto.habitaciones (nro_habitacion, cantidad_camas, cod_tipo_habi
 (7, 'Cuadruple', 4);
 
 INSERT INTO proyecto.fecha (d_m_a) VALUES
+('01/01/0001'), -- fecha para inicializar habitaciones en ocupa
 ('10/02/2021'), -- fecha primer hospedaje de osvaldo (cliente)
 ('29/05/2020'), -- fecha primer hospedaje de javier (cliente)
 ('03/04/2022'), -- fecha primer hospedaje de emilia (cliente)
 ('15/03/2022'), -- fecha random
 ('01/12/2020'), -- fecha random
+<<<<<<< HEAD
 ('17/09/2021'), -- fecha random
 ( now() );
+=======
+('17/09/2021'), --fecha random
+( now() ); --fecha de hoy
+>>>>>>> 297cc93 (Segundo Commit)
 
 INSERT INTO proyecto.atiende (dni, nro_habitacion) VALUES -- dni_mucama
 (28456123, 1), -- lucrecia atiende habitacion 1
@@ -194,8 +200,8 @@ INSERT INTO proyecto.ocupa (nro_habitacion, d_m_a, dni, monto, dias_permanecio) 
 
 --Agrego las habitaciones desocupadas por primera vez en el sistema para EJ 5B.
 INSERT INTO proyecto.ocupa (nro_habitacion, d_m_a) VALUES
-(5, now()),
-(6, now());
+(5, '01/01/0001'),
+(6, '01/01/0001');
 
 -- se crea la funcion que se ejecuta dentro del trigger
 
@@ -227,7 +233,11 @@ UPDATE proyecto.ocupa SET
 dni = 16530675
 where (nro_habitacion = 7);
 
+<<<<<<< HEAD
 --select * from proyecto.habitaciones;
 
 
 
+=======
+select * from proyecto.ocupa;
+>>>>>>> 297cc93 (Segundo Commit)
