@@ -57,18 +57,17 @@ const insertarFechaDeHoy = async () => {
 
     //La fecha se insertá si no devuelve un error
     //Si devuelve error -> la fecha de hoy está cargada en el sistema
-    const res = await client.query( text, ( err, res ) => {
-        if ( err ) {
-            console.log('Se actualizó el sistema con la fecha de hoy')
-          } else {
-            console.log('La fecha de hoy ya está registrada. No se ejecutó la inserción de la fecha actual.');
-          }
-        }
-    );
-    
-    //Cerrar conexion
-    await client.end();
-    return res;
+    try {
+        const res = await client.query( text );
+        console.log('Se actualizó el sistema con la fecha de hoy');
+        await client.end();
+        return res;    
+    }
+    catch (err) {
+        console.log('\n');
+        console.log ('La fecha de hoy ya está registrada en el sistema. No se ejecutó la inserción de la fecha actual');
+        await client.end();
+    };
 };
 
 
