@@ -1,40 +1,55 @@
-//Requerir node-postgre
+//Requerir node-postgres
 const { Client } = require('pg');
 
-const insertarHabitacion = async (nro_hab = 0, cant_camas = '', cod_tipo_hab = 0) => {
-    //Conección a la DB
-    const client = new Client ({
+//Función para la conección a la DB
+const conectarDB = async () => {
+    const cliente = new Client ({
         user: 'postgres',
         host: 'localhost',
         database: 'proyecto',
         password: 'root',
         port: 5432,
     });
-    await client.connect()
-
-    //Ejecucion de Querys
-    const text = 'INSERT INTO proyecto.habitaciones (nro_habitacion, cantidad_camas, cod_tipo_habitacion) VALUES ($1, $2, $3)';
-    const values = [nro_hab, cant_camas, cod_tipo_hab];
-    const res = await client.query(text, values);
-
-    //Respuesta de Query
-    const result = await client.query('SELECT * FROM proyecto.habitaciones');
-    //console.log( result.rows[0] );
-     
-    //Cerrar conexion
-    await client.end();
-    return result;
+    return cliente;
 };
 
-async function insertarFechaDeHoy() {
+const insertarHabitacion = async (nro_hab = 0, cant_camas = '', cod_tipo_hab = 0) => {
+
     //Conección a la DB
-    const client = new Client({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'proyecto',
-        password: 'root',
-        port: 5432,
-    });
+    let client = await conectarDB();
+    await client.connect();
+
+    try {
+        //Ejecucion de Query
+        const text = 'INSERT INTO proyecto.habitaciones (nro_habitacion, cantidad_camas, cod_tipo_habitacion) VALUES ($1, $2, $3)';
+        const values = [nro_hab, cant_camas, cod_tipo_hab];
+        const res = await client.query(text, values);
+
+        //Respuesta de Query
+        const result = await client.query('SELECT * FROM proyecto.habitaciones');
+        console.log ( 'Habitacion insertada con exito');
+
+        //Muestra de datos actualizados
+        console.log( result.rows );
+        
+        //Cerrar conexion
+        await client.end();
+        return result;
+    }
+
+    catch ( err ) {
+        console.log('\n');
+        console.log (`No se pudo ingresar la habitación. Detalles del error:`);
+        console.log( err.stack );
+        await client.end();
+    };
+
+};
+
+const insertarFechaDeHoy = async () => {
+
+    //Conección a la DB
+    let client = await conectarDB();
     await client.connect();
 
     //Ejecucion de Querys
@@ -50,66 +65,54 @@ async function insertarFechaDeHoy() {
           }
         }
     );
-
-    //Respuesta de Query
-    const result = await client.query('SELECT * FROM proyecto.fecha;');
-    //console.log( result.rows[0] );
+    
     //Cerrar conexion
     await client.end();
-    return result;
-}
+    return res;
+};
 
 
 const insertarEnOcupa = async ( nrohab , DNI , monto , dias ) => {
 
     //Conección a la DB
-    const client = new Client ({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'proyecto',
-        password: 'root',
-        port: 5432,
-    });
+    let client = await conectarDB();
     await client.connect();
 
     let fechaActual = 'now()';
-    //Se intenta hacer un INSERT suponiendo que la habitación está desocupada (no está registrada en OCUPA)
-    //Caso contrario, se realiza un UPDATE
+
+    //Se intenta hacer el INSERT y se muestra por pantalla los resultados si no hay errores
+    //Caso contrario, se muestra el stack de errores con un mensaje
     try {
         const text = 'INSERT INTO proyecto.ocupa (nro_habitacion, d_m_a, dni, monto, dias_permanecio) VALUES ($1, $2, $3, $4, $5);';
         const values = [nrohab, fechaActual, DNI, monto, dias];
-        const res = await client.query(text, values)
+        const res = await client.query(text, values);
+
+        //Respuesta de Query
+        console.log('\n');
+        const result = await client.query('SELECT * FROM proyecto.ocupa; ');
+        console.log ( 'El cliente fue registrado en la habitación con fecha de hoy exitosamente' );
+        console.log( result.rows );
+        
+        //Cerrar conexion
+        await client.end();
+        return result;
     }
 
     catch ( err ) {
-        const text2 = 'UPDATE proyecto.ocupa SET dni = $1, monto = $2, dias_permanecio = $3, d_m_a = $4 WHERE (nro_habitacion = $5);';
-        const values2 = [DNI, monto, dias, fechaActual, nrohab];
-        const res2 = await client.query(text2, values2)
-    }
-
-    //Respuesta de Query
-    const result = await client.query('SELECT * FROM proyecto.ocupa; ');
-    //console.log( result.rows[0] );
-     
-    //Cerrar conexion
-    await client.end();
-    return result;
-}
+        console.log('\n');
+        console.log ('Los datos que ingresó violan alguna restricción de la BDD. Detalles del error:');
+        console.log( err.stack );
+        await client.end();
+    };
+};
 
 const listarClientesFechas = async ( habitacion = 0 ) => {
 
     //Conección a la DB
-    const client = new Client ({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'proyecto',
-        password: 'root',
-        port: 5432,
-    });
-    await client.connect()
+    let client = await conectarDB();
+    await client.connect();
 
     //Ejecucion de la select
-
     const text = 'select nombre, apellido, dni, d_m_a from proyecto.persona inner join proyecto.ocupa using (dni) where (nro_habitacion = $1)';
     const values = [ habitacion ];
     const res = await client.query(text, values);
@@ -117,7 +120,7 @@ const listarClientesFechas = async ( habitacion = 0 ) => {
     //Cerrar conexion
     await client.end();
     return res;
-}
+};
 
 module.exports = {
     insertarHabitacion,

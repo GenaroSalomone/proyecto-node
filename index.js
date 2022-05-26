@@ -1,6 +1,7 @@
 
 //Requerir node-postgre
 const { Client } = require('pg');
+
 const { inquirerMenu,
         pausa,
         leerHabitacion,
@@ -25,28 +26,23 @@ const main = async () => {
         
         switch (opt){
             case '1':
+
                 //Insercion de la nueva habitacion
-                console.log('Ingrese los datos de la nueva habitación')
+                console.log('Ingrese los datos de la nueva habitación');
                 const {nro_habitacion, cantidad_camas, cod_tipo_habitacion} = await leerHabitacion();
-                const nuevahab = await insertarHabitacion(nro_habitacion, cantidad_camas, cod_tipo_habitacion);
+                await insertarHabitacion(nro_habitacion, cantidad_camas, cod_tipo_habitacion);
                 
-                //Muestra de datos actualizados
-                console.log ( nuevahab.rows );
-                console.log ( 'Habitacion insertada con exito');
             break;
 
             case '2':
 
                 //Insercion de la fecha actual, por si no estuviese cargada no permitiría insertar en Ocupa.
-                const fechadehoy = await insertarFechaDeHoy();
+                await insertarFechaDeHoy();
 
                 //Inserción tupla ocupa
+                console.log('Inserte los siguientes datos:');
                 const {Nro_habitacion, DNI_Cliente, Monto, dias_permanecio} = await leerRegistroOcupa();
-                const nuevoOcupaRegis = await insertarEnOcupa( Nro_habitacion, DNI_Cliente, Monto, dias_permanecio );
-
-                //Muestra de datos tabla ocupa (Opcional)
-                console.log( nuevoOcupaRegis.rows );
-                console.log ( 'El cliente fue registrado en la habitación con fecha de hoy exitosamente' );
+                await insertarEnOcupa( Nro_habitacion, DNI_Cliente, Monto, dias_permanecio );
                     
             break;
             
@@ -54,12 +50,11 @@ const main = async () => {
 
                 console.log('Ingrese el numero de habitacion');
                 const {Nro_de_habitacion} = await leerNroDeHab();
-                //console.log( numero );
                 const listado = await listarClientesFechas( Nro_de_habitacion );
                 console.log( listado.rows );
 
             break;
-        }
+        };
 
         await pausa();
     } while ( opt !== '0');
