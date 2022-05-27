@@ -1,4 +1,6 @@
 --Lucas Toledo
+--Genaro Salomone
+--Cristian Herrera
 
 -- Ejercicios completados:
 /*
@@ -37,14 +39,14 @@ CREATE TABLE proyecto.gerente(
 dni   int NOT NULL,
 comision   varchar (50),
 PRIMARY KEY (dni),
-CONSTRAINT fk_dni_gerente FOREIGN KEY (dni) REFERENCES proyecto.persona (dni)
+CONSTRAINT fk_dni_gerente FOREIGN KEY (dni) REFERENCES proyecto.personal (dni)
 );
 
 DROP TABLE IF EXISTS proyecto.mucama;
 CREATE TABLE proyecto.mucama (
 dni   int NOT NULL,
 PRIMARY KEY (dni),
-CONSTRAINT fk_dni_mucama FOREIGN KEY (dni) REFERENCES proyecto.persona (dni)
+CONSTRAINT fk_dni_mucama FOREIGN KEY (dni) REFERENCES proyecto.personal (dni)
 );
 
 DROP TABLE IF EXISTS proyecto.cliente;
