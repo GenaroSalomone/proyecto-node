@@ -2,16 +2,6 @@
 --Genaro Salomone
 --Cristian Herrera
 
--- Ejercicios completados:
-/*
-3. Definir el diccionario de datos creando:
-- La base de datos.
-- Las tablas componentes con todas las restricciones que el problema
-requiere (claves primarias, claves foráneas indicando que hacer al
-borrar o actualizar, etc.). Implementar las restricciones de tipos.
-4. Generar un script SQL para la carga de información en la base de datos
-(archivo de texto con el código SQL para la inserción de datos).
-*/
 
 DROP SCHEMA IF EXISTS proyecto CASCADE;
 CREATE SCHEMA proyecto;
@@ -226,4 +216,64 @@ UPDATE proyecto.ocupa SET
 dni = 16530675
 where (nro_habitacion = 7);
 
-select * from proyecto.ocupa;
+/*
+Ejercicio 6 -------------------------------------------------------------------------
+A) Devolver clientes que no se registraron en habitaciones “dobles”.
+*/
+
+/*
+select dni, nombre, apellido from proyecto.cliente join proyecto.persona using (dni)
+except
+select dni, nombre, apellido from
+proyecto.ocupa inner join proyecto.habitaciones using (nro_habitacion) 
+inner join proyecto.persona using (dni) where cantidad_camas = 'Doble';
+*/
+
+/*
+B) Listar los clientes con el total que abonó en todas sus registraciones
+
+select dni, nombre, apellido, sum(monto) as monto_total from proyecto.ocupa inner join
+proyecto.persona using (dni) group by (nombre,dni,apellido);
+*/
+
+
+--C) Listar el personal que es cliente del Hotel con todos sus datos personales
+
+/*
+select dni, nombre, apellido, fecha_pri_hospedaje, sueldo, antiguedad from proyecto.persona
+inner join proyecto.personal using (dni) inner join
+proyecto.cliente using (dni);
+*/
+
+--D) Subconsultas propias: 
+
+--1) Devolver el gerente que tiene el sueldo más alto utilizando subconsultas:
+
+/*
+select dni, nombre, apellido, sueldo from proyecto.gerente 
+inner join proyecto.personal using (dni)
+inner join proyecto.persona using (dni)
+where sueldo = (select max(sueldo) from proyecto.gerente inner join
+               proyecto.personal using (dni));
+*/
+
+-- 2) Listar las habitaciones donde el costo sea mayor a $2.000
+/*
+select costo, nro_habitacion from proyecto.habitaciones
+inner join proyecto.tipo_habitacion using(cod_tipo_habitacion) 
+where costo > 2.000;
+*/
+
+
+-- 3) Clientes que se registraron este año 2022
+
+/*
+select dni, nombre, apellido, d_m_a from proyecto.persona inner join proyecto.cliente 
+using (dni) inner join proyecto.ocupa using (dni) 
+where (d_m_a >= '01/01/2022');
+*/
+
+
+
+
+
