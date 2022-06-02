@@ -5,7 +5,6 @@ const { Client } = require('pg');
 const { inquirerMenu,
         pausa,
         leerHabitacion,
-        leerCliente,
         leerRegistroOcupa,
         leerNroDeHab
          } = require('./inquirer');

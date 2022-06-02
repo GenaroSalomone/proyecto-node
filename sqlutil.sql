@@ -141,7 +141,9 @@ INSERT INTO proyecto.personal (dni, antiguedad, sueldo) VALUES
 INSERT INTO proyecto.cliente (dni, fecha_pri_hospedaje) VALUES
 (16530675, '10/02/2021'), -- osvaldo (cliente)
 (17380992, '29/05/2020'), -- javier (cliente)
-(43001274, '03/04/2022'); -- emilia (cliente)
+(43001274, '03/04/2022'), -- emilia (cliente)
+(42308992, '05/01/2018'), -- genaro (gerente y cliente)
+(28456123, '22/02/2019'); -- lucrecia (mucama y cliente)
 
 INSERT INTO proyecto.gerente (dni, comision) VALUES
 (42308992, 'Asociación de hotel tras la sierra'), -- genaro (gerente)
