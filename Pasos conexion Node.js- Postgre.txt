@@ -1,0 +1,22 @@
+Pasos para poder conectar Node.js con POSTGREsql
+
+1) Descargar Node.js desde la página web oficial -> node.org
+   Descargar la version para Windows -> 16.15.0 LTS (recomendado para la mayoria).
+   Ejecutar el instalador node-v16.15.0-x64 e instalarlo, (se le da a next y se deja
+   todo por defecto).
+2) Le mandamos por gmail un archivo .zip, descomprimir el contenido en una nueva carpeta 
+   y es recomendado colocar esta carpeta en el Escritorio para generar una ruta de acceso
+   corta. El .zip contiene todos los archivos necesarios para poder realizar una correcta
+   conexión a Postgresql.
+3) Desde la terminal dirigirse a la carpeta donde guardo los archivos
+   descomprimidos, en nuestro caso es:
+   PS C:\Users\pc> sl Desktop\proyecto-node-main
+   Como vera nuestra carpeta se llama proyecto-node-main.
+   Una vez posicionado dentro de la carpeta, ejecutar el comando -> node index
+   Esto realizará la conexion y compilara los programas, si esta todo correcto aparecera
+   el MENU para hacer las consultas.
+
+Repositorio online: https://github.com/MisterGena/proyecto-node
+
+
+
